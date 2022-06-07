@@ -257,5 +257,53 @@ public class VeiculosDAO {
         }
 
     }
+    
+    public Veiculos consultarPorPlaca(String placa) { //alterar para lista veiculo por nome/modelo
+        try {
+
+            String sql = "select v.id, v.placa, v.marca, v.modelo, v.cor,v.combustivel, v.renavan, v.chassi,"
+                    + "v.ano_fabricacao, v.ano_modelo, v.km, v.valor, v.observacoes, f.nome from tb_veiculos as v " //espaço apo p
+                    + "inner join tb_fornecedores as f on(v.for_id = f.id) where v.placa = ?"; //produto especifico =
+
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setString(1, placa);
+
+            ResultSet rs = stmt.executeQuery();
+            Veiculos obj = new Veiculos();
+            Fornecedores f = new Fornecedores();
+
+            if (rs.next()) {
+
+                obj.setId(rs.getInt("v.id"));
+                obj.setPlaca(rs.getString("v.placa"));
+                obj.setMarca(rs.getString("v.marca"));
+                obj.setModelo(rs.getString("v.modelo"));
+                obj.setCor(rs.getString("v.cor"));
+                obj.setCombustivel(rs.getString("v.combustivel"));
+                obj.setRenavan(rs.getLong("v.renavan"));
+                obj.setChassi(rs.getString("v.chassi"));
+                obj.setAno_fabricacao(rs.getInt("v.ano_fabricacao"));
+                obj.setAno_modelo(rs.getInt("v.ano_modelo"));
+                obj.setKm(rs.getInt("v.km"));
+                obj.setValor(rs.getDouble("v.valor"));
+                obj.setObservacoes(rs.getString("v.observacoes"));
+
+                f.setNome(rs.getString(("f.nome")));
+
+                obj.setFornecedor(f);
+            }
+
+            return obj;
+
+        } catch (Exception erro) {
+            JOptionPane.showMessageDialog(null, "Veiculo não encontrado!");
+            return null;
+        }
+
+    }
+    
+    
+    
+    
 
 }

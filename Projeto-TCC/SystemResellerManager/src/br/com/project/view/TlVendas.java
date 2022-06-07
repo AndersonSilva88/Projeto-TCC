@@ -5,17 +5,12 @@
 package br.com.project.view;
 
 import br.com.project.dao.ClientesDAO;
-import br.com.project.dao.FornecedoresDAO;
 import br.com.project.dao.VeiculosDAO;
 import br.com.project.model.Clientes;
-import br.com.project.model.Fornecedores;
-import br.com.project.model.Utilitarios;
 import br.com.project.model.Veiculos;
 import java.awt.event.KeyEvent;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
-import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -23,43 +18,18 @@ import javax.swing.table.DefaultTableModel;
  * @author Anderson
  */
 public class TlVendas extends javax.swing.JFrame {
-
-    /**
-     * Creates new form TlCliente
-     */
-    //listar tabela
-    public void listar() {
-
-        VeiculosDAO dao = new VeiculosDAO();
-        List<Veiculos> lista = dao.listarVeiculos();
-        DefaultTableModel dados = (DefaultTableModel) tabelaVeiculos.getModel();
-        dados.setNumRows(0);
-
-        for (Veiculos v : lista) {
-            dados.addRow(new Object[]{
-                v.getId(),
-                v.getPlaca(),
-                v.getMarca(),
-                v.getModelo(),
-                v.getCor(),
-                v.getCombustivel(),
-                v.getRenavan(),
-                v.getChassi(),
-                v.getAno_fabricacao(),
-                v.getAno_modelo(),
-                v.getKm(),
-                v.getValor(),
-                v.getObservacoes(),
-                v.getFornecedor().getNome()
-
-            });
-
-        }
-
-    }
+    
+    Clientes obj = new Clientes();
+    double total, valor, subtotal;
+    int quantidade;
+    
+    DefaultTableModel carrinho; //alterar adicionar
+    
 
     public TlVendas() {
         initComponents();
+        
+        txtQtde.setText("1");
     }
 
     /**
@@ -92,6 +62,8 @@ public class TlVendas extends javax.swing.JFrame {
         txtCor = new javax.swing.JTextField();
         btnAdicionar = new javax.swing.JButton();
         btnPesquisarVeiculo = new javax.swing.JButton();
+        jLabel14 = new javax.swing.JLabel();
+        txtQtde = new javax.swing.JTextField();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabelaItens = new javax.swing.JTable();
@@ -150,6 +122,11 @@ public class TlVendas extends javax.swing.JFrame {
                 txtCpfActionPerformed(evt);
             }
         });
+        txtCpf.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtCpfKeyPressed(evt);
+            }
+        });
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel3.setText("Nome:");
@@ -163,6 +140,11 @@ public class TlVendas extends javax.swing.JFrame {
         txtData.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
         btnPesquisarCliente.setText("Pesquisar");
+        btnPesquisarCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPesquisarClienteActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -220,11 +202,15 @@ public class TlVendas extends javax.swing.JFrame {
         jLabel16.setText("Placa:");
 
         txtPlaca.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat(""))));
-        txtPlaca.setText("");
         txtPlaca.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtPlaca.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtPlacaActionPerformed(evt);
+            }
+        });
+        txtPlaca.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtPlacaKeyPressed(evt);
             }
         });
 
@@ -244,8 +230,23 @@ public class TlVendas extends javax.swing.JFrame {
         txtCor.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
         btnAdicionar.setText("Adicionar");
+        btnAdicionar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAdicionarActionPerformed(evt);
+            }
+        });
 
         btnPesquisarVeiculo.setText("Pesquisar");
+        btnPesquisarVeiculo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPesquisarVeiculoActionPerformed(evt);
+            }
+        });
+
+        jLabel14.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel14.setText("Quantidade:");
+
+        txtQtde.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -275,7 +276,11 @@ public class TlVendas extends javax.swing.JFrame {
                         .addGap(19, 19, 19)
                         .addComponent(jLabel12)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtValor, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtValor, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtQtde, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(125, 125, 125))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addGap(189, 189, 189)
@@ -297,9 +302,13 @@ public class TlVendas extends javax.swing.JFrame {
                     .addComponent(jLabel13)
                     .addComponent(txtCor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel12)
-                    .addComponent(txtValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel14)
+                        .addComponent(txtQtde, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel12)
+                        .addComponent(txtValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addComponent(btnAdicionar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
@@ -310,13 +319,10 @@ public class TlVendas extends javax.swing.JFrame {
 
         tabelaItens.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Placa", "Marca", "Modelo", "Valor"
+                "Placa", "Modelo", "Cor", "Valor"
             }
         ));
         jScrollPane1.setViewportView(tabelaItens);
@@ -367,10 +373,15 @@ public class TlVendas extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(59, 59, 59)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(59, Short.MAX_VALUE))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
 
         btnPagamento.setText("PAGAMENTO");
+        btnPagamento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPagamentoActionPerformed(evt);
+            }
+        });
 
         btnCancelar.setText("CANCELAR VENDA");
 
@@ -384,15 +395,17 @@ public class TlVendas extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
-                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnCancelar)
-                .addGap(135, 135, 135))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(124, 124, 124)
+                        .addComponent(btnPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnCancelar)
+                        .addGap(135, 135, 135))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -409,14 +422,14 @@ public class TlVendas extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnPagamento, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
                     .addComponent(btnCancelar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(61, 61, 61))
+                .addGap(87, 87, 87))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
-       //carregar data
+        //carregar data
         Date agora = new Date();
         SimpleDateFormat dataBr = new SimpleDateFormat("dd/MM/yyyy");
         String dataFormatada = dataBr.format(agora);
@@ -430,6 +443,100 @@ public class TlVendas extends javax.swing.JFrame {
     private void txtPlacaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPlacaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPlacaActionPerformed
+
+    private void txtCpfKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCpfKeyPressed
+        // consulta cliente por cpf
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+
+            Clientes obj = new Clientes();
+            ClientesDAO dao = new ClientesDAO();
+
+            obj = dao.consultaPorCpf(txtCpf.getText());
+
+            txtNome.setText(obj.getNome());
+        }
+    }//GEN-LAST:event_txtCpfKeyPressed
+
+    private void btnPesquisarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarClienteActionPerformed
+        // TODO add your handling code here:
+        Clientes obj = new Clientes();
+        ClientesDAO dao = new ClientesDAO();
+
+        obj = dao.consultaPorCpf(txtCpf.getText());
+
+        txtNome.setText(obj.getNome());
+
+    }//GEN-LAST:event_btnPesquisarClienteActionPerformed
+
+    private void txtPlacaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPlacaKeyPressed
+        // busca placa veiculo:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            Veiculos obj = new Veiculos();
+            VeiculosDAO dao = new VeiculosDAO();
+
+            obj = dao.consultarPorPlaca(txtPlaca.getText());
+
+            txtModelo.setText(obj.getModelo());
+            txtValor.setText(String.valueOf(obj.getValor()));
+            txtCor.setText(obj.getCor());
+        }
+
+
+    }//GEN-LAST:event_txtPlacaKeyPressed
+
+    private void btnPesquisarVeiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarVeiculoActionPerformed
+        // busca placa btn pesquisar:
+
+        Veiculos obj = new Veiculos();
+        VeiculosDAO dao = new VeiculosDAO();
+
+        obj = dao.consultarPorPlaca(txtPlaca.getText());
+
+        txtModelo.setText(obj.getModelo());
+        txtValor.setText(String.valueOf(obj.getValor()));
+        txtCor.setText(obj.getCor());
+    }//GEN-LAST:event_btnPesquisarVeiculoActionPerformed
+
+    private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
+        // TODO add your handling code here:
+        quantidade = Integer.parseInt(txtQtde.getText());
+        valor = Double.parseDouble(txtValor.getText());
+        
+        subtotal=quantidade*valor;
+        
+        total+=subtotal;
+        
+        txtTotal.setText(String.valueOf(total));
+        
+        //adicionar na tabela
+        carrinho = (DefaultTableModel) tabelaItens.getModel();
+        
+        carrinho.addRow(new Object[]{
+          txtPlaca.getText(),
+          txtModelo.getText(),
+          txtCor.getText(),
+          txtValor.getText(),
+          subtotal
+        
+        });
+        
+        
+        
+        
+        
+        
+        
+    }//GEN-LAST:event_btnAdicionarActionPerformed
+
+    private void btnPagamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPagamentoActionPerformed
+        // TODO add your handling code here:
+        TlPagmentos telaPamentos = new TlPagmentos();
+        telaPamentos.txtTotal.setText(String.valueOf(total));
+        telaPamentos.cliente = obj;
+        telaPamentos.setVisible(true);
+        this.dispose();
+        
+    }//GEN-LAST:event_btnPagamentoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -479,6 +586,7 @@ public class TlVendas extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel3;
@@ -497,6 +605,7 @@ public class TlVendas extends javax.swing.JFrame {
     private javax.swing.JTextField txtModelo;
     private javax.swing.JTextField txtNome;
     private javax.swing.JFormattedTextField txtPlaca;
+    private javax.swing.JTextField txtQtde;
     private javax.swing.JTextField txtTotal;
     private javax.swing.JTextField txtValor;
     // End of variables declaration//GEN-END:variables
