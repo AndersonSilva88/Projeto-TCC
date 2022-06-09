@@ -13,6 +13,7 @@ import java.sql.PreparedStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -74,16 +75,16 @@ public class VendasDAO {
     }
 
     //filtrar vendas por data
-    public List<Vendas> listarVendasPorPeriodo(String data_inicio, String data_final) {
+    public List<Vendas> listarVendasPorPeriodo(LocalDate data_inicio, LocalDate data_final) {
         try {
             List<Vendas> lista = new ArrayList<>();
 
-            String sql = "select v.id, v.data_venda, c.nome, v.total_venda, v.observacoes from tb_vendas as v "
+            String sql = "select v.id, date_format(v.data_venda, '%d/%m/%y') as data_formatada, c.nome, v.total_venda, v.observacoes from tb_vendas as v "
                     + " inner join tb_clientes as c on(v.cliente_id=c.id)where v.data_venda BETWEEN? AND?";
 
             PreparedStatement stmt = con.prepareStatement(sql);
-            stmt.setString(1, data_inicio);
-            stmt.setString(2, data_final);
+            stmt.setString(1, data_inicio.toString());
+            stmt.setString(2, data_final.toString());
 
             ResultSet rs = stmt.executeQuery();
 
@@ -91,9 +92,10 @@ public class VendasDAO {
 
                 Vendas obj = new Vendas();
                 Clientes c = new Clientes();
+                
 
                 obj.setId(rs.getInt("v.id"));
-                obj.setData_venda(rs.getString("v.data_venda"));
+                obj.setData_venda(rs.getString("data_formatada"));
                 c.setNome(rs.getString("c.nome"));
                 obj.setTotal_venda(rs.getDouble("v.total_venda"));
                 obj.setObs(rs.getString("v.observacoes"));

@@ -4,6 +4,14 @@
  */
 package br.com.project.view;
 
+import br.com.project.dao.VendasDAO;
+import br.com.project.model.Vendas;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author ander
@@ -143,7 +151,7 @@ public class TlHistorico extends javax.swing.JFrame {
                     .addComponent(jLabel16)
                     .addComponent(txtDataFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(btnPesquisarHistorico, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
+                .addComponent(btnPesquisarHistorico, javax.swing.GroupLayout.PREFERRED_SIZE, 24, Short.MAX_VALUE)
                 .addGap(25, 25, 25))
         );
 
@@ -152,9 +160,14 @@ public class TlHistorico extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Placa", "Data da Venda", "Cliente", "Valor", "Observações"
+                "Codigo", "Data da Venda", "Cliente", "Valor", "Observações"
             }
         ));
+        tabelaHistorico.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabelaHistoricoMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tabelaHistorico);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -189,7 +202,7 @@ public class TlHistorico extends javax.swing.JFrame {
 
     private void txtDataInicioKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDataInicioKeyPressed
         // consulta cliente por cpf
-        
+
     }//GEN-LAST:event_txtDataInicioKeyPressed
 
     private void txtDataFinalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDataFinalActionPerformed
@@ -201,10 +214,52 @@ public class TlHistorico extends javax.swing.JFrame {
     }//GEN-LAST:event_txtDataFinalKeyPressed
 
     private void btnPesquisarHistoricoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarHistoricoActionPerformed
-        // TODO add your handling code here:
-        //Clientes obj = new Clientes();
+
+        try {
+            //recebendo data
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+        LocalDate data_inicio = LocalDate.parse(txtDataInicio.getText(), formato);
+
+        LocalDate data_final = LocalDate.parse(txtDataFinal.getText(), formato);
+
+        VendasDAO dao = new VendasDAO();
+        List<Vendas> lista = dao.listarVendasPorPeriodo(data_inicio, data_final);
         
+        DefaultTableModel dados = (DefaultTableModel) tabelaHistorico.getModel();
+        dados.setNumRows(0);
+        
+        for(Vendas v : lista) {
+            dados.addRow(new Object[] {
+                v.getId(),
+                v.getData_venda(),
+                v.getCliente().getNome(),
+                v.getTotal_venda(),
+                v.getObs()
+            });
+        }
+        
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null,"Nenhum resultado encontrado");
+        }
+
     }//GEN-LAST:event_btnPesquisarHistoricoActionPerformed
+
+    private void tabelaHistoricoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaHistoricoMouseClicked
+        // TODO add your handling code here:
+        //clicar na venda
+        TlDetalheVenda tela = new TlDetalheVenda();
+        
+        tela.txtCliente.setText(tabelaHistorico.getValueAt(tabelaHistorico.getSelectedRow(),2).toString());
+        tela.txtTotalVenda.setText(tabelaHistorico.getValueAt(tabelaHistorico.getSelectedRow(),3).toString());
+        tela.txtDataVenda.setText(tabelaHistorico.getValueAt(tabelaHistorico.getSelectedRow(),1).toString());
+        tela.txtObsVenda.setText(tabelaHistorico.getValueAt(tabelaHistorico.getSelectedRow(),4).toString());
+        
+        tela.setVisible(true);
+        
+        
+        
+    }//GEN-LAST:event_tabelaHistoricoMouseClicked
 
     /**
      * @param args the command line arguments
