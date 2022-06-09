@@ -302,6 +302,54 @@ public class VeiculosDAO {
 
     }
     
+    //baixo de estoque
+    public void baixarEstoque(int id, int n_placa) {
+        try {
+            
+            String sql = "update tb_veiculos set placa=? where id=?";
+            
+            PreparedStatement stmt = con.prepareStatement(sql);
+            
+            stmt.setInt(1, n_placa);
+            stmt.setInt(2, id);
+            
+            stmt.execute();
+            stmt.close();
+            
+            
+            
+        } catch (Exception e) {
+        }
+    }
+    
+    //retorna estoque atual
+    public int retornaEstoque(int id){
+        
+        try {
+            String placa = "";
+            
+            String sql = "select placa from tb_veiculos where id=?";
+            
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setInt(1, id);
+            
+            ResultSet rs = stmt.executeQuery();
+            
+            if(rs.next()) {
+                Veiculos v = new Veiculos();
+                
+                placa = (rs.getString("placa"));
+            }
+            
+            return id;
+            
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    
+    
     
     
     

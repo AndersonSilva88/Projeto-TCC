@@ -322,7 +322,7 @@ public class TlVendas extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Placa", "Modelo", "Cor", "Valor"
+                "Placa", "Modelo", "Qtde", "Cor", "Valor", "Subtotal"
             }
         ));
         jScrollPane1.setViewportView(tabelaItens);
@@ -448,7 +448,7 @@ public class TlVendas extends javax.swing.JFrame {
         // consulta cliente por cpf
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
 
-            Clientes obj = new Clientes();
+            //Clientes obj = new Clientes();
             ClientesDAO dao = new ClientesDAO();
 
             obj = dao.consultaPorCpf(txtCpf.getText());
@@ -459,7 +459,7 @@ public class TlVendas extends javax.swing.JFrame {
 
     private void btnPesquisarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarClienteActionPerformed
         // TODO add your handling code here:
-        Clientes obj = new Clientes();
+        //Clientes obj = new Clientes();
         ClientesDAO dao = new ClientesDAO();
 
         obj = dao.consultaPorCpf(txtCpf.getText());
@@ -532,7 +532,10 @@ public class TlVendas extends javax.swing.JFrame {
         // TODO add your handling code here:
         TlPagmentos telaPamentos = new TlPagmentos();
         telaPamentos.txtTotal.setText(String.valueOf(total));
+        
         telaPamentos.cliente = obj;
+        telaPamentos.carrinho = carrinho;
+        
         telaPamentos.setVisible(true);
         this.dispose();
         

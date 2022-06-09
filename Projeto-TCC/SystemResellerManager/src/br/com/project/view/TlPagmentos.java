@@ -4,11 +4,17 @@
  */
 package br.com.project.view;
 
+import br.com.project.dao.ItemVendaDAO;
+import br.com.project.dao.VeiculosDAO;
 import br.com.project.dao.VendasDAO;
 import br.com.project.model.Clientes;
+import br.com.project.model.ItensVendas;
+import br.com.project.model.Veiculos;
 import br.com.project.model.Vendas;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -21,7 +27,7 @@ public class TlPagmentos extends javax.swing.JFrame {
      */
     
     Clientes cliente = new Clientes();
-    
+    DefaultTableModel carrinho;
     
     public TlPagmentos() {
         initComponents();
@@ -214,6 +220,39 @@ public class TlPagmentos extends javax.swing.JFrame {
         
         VendasDAO dao_v = new VendasDAO();
         dao_v.cadastrarVenda(objv);
+        
+        //retornar ultima venda
+        objv.setId(dao_v.retornaUltimaVenda());
+        
+        //cadastrar tabela item vendas
+        for(int i=0; i<carrinho.getRowCount(); i++) {
+            
+            int placa, placa_vendida, placa_atualizada;
+            
+            VeiculosDAO dao_veiculos = new VeiculosDAO();
+            
+            Veiculos objVe = new Veiculos();
+            ItensVendas item = new ItensVendas();
+            item.setVenda(objv);
+            
+            objVe.setId(Integer.parseInt(carrinho.getValueAt(i,0).toString()));
+            item.setVeiculos(objVe);
+            item.setQtd(Integer.parseInt(carrinho.getValueAt(i,2).toString()));
+            item.setSubtotal(Double.parseDouble(carrinho.getValueAt(i,5).toString()));
+            
+            placa = dao_veiculos.retornaEstoque(objVe.getId());
+            placa_vendida = Integer.parseInt(carrinho.getValueAt(i,2).toString());
+            placa_atualizada = placa - placa_vendida;
+            
+            
+            dao_veiculos.baixarEstoque(objVe.getId(),placa_atualizada);
+            
+            ItemVendaDAO daoitem = new ItemVendaDAO();
+            daoitem.cadastrarItem(item);
+        }
+        
+        JOptionPane.showMessageDialog(null, "Venda Registrada com Sucesso");
+        
         
     }//GEN-LAST:event_btnfinalizarVendaActionPerformed
 
