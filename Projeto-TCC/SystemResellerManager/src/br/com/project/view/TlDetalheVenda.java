@@ -157,7 +157,7 @@ public class TlDetalheVenda extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Codigo", "Veiculo", "Quantidade", "Valor"
+                "Veiculo", "Quantidade", "Valor"
             }
         ));
         jScrollPane1.setViewportView(tabelaItensVenda);
@@ -238,7 +238,7 @@ public class TlDetalheVenda extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable tabelaItensVenda;
+    public javax.swing.JTable tabelaItensVenda;
     public javax.swing.JTextField txtCliente;
     public javax.swing.JTextField txtDataVenda;
     public javax.swing.JTextArea txtObsVenda;

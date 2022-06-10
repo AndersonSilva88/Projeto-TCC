@@ -89,6 +89,11 @@ public class TlLogin extends javax.swing.JFrame {
 
         btnSair.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btnSair.setText("SAIR");
+        btnSair.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSairActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -113,8 +118,7 @@ public class TlLogin extends javax.swing.JFrame {
                         .addGap(223, 223, 223)
                         .addComponent(btnEntrar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(54, 54, 54)
-                        .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(163, 163, 163))
         );
         layout.setVerticalGroup(
@@ -170,6 +174,19 @@ public class TlLogin extends javax.swing.JFrame {
         
         
     }//GEN-LAST:event_btnEntrarActionPerformed
+
+    private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
+        // TODO add your handling code here:
+        int opcao;
+        
+        opcao = JOptionPane.showConfirmDialog(null,"Deseja Realmente sair ?");
+        
+        if(opcao == 0) {
+            System.exit(0);
+        }
+        
+        
+    }//GEN-LAST:event_btnSairActionPerformed
 
     /**
      * @param args the command line arguments

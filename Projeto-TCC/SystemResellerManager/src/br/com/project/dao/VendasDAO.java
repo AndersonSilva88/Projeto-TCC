@@ -92,7 +92,6 @@ public class VendasDAO {
 
                 Vendas obj = new Vendas();
                 Clientes c = new Clientes();
-                
 
                 obj.setId(rs.getInt("v.id"));
                 obj.setData_venda(rs.getString("data_formatada"));
@@ -111,6 +110,30 @@ public class VendasDAO {
         } catch (SQLException erro) {
             JOptionPane.showMessageDialog(null, "Erro" + erro);
             return null;
+        }
+
+    }
+
+    public double retornaTotalVendaPorData(LocalDate data_venda) {
+        try {
+            double totalvenda = 0;
+
+            String sql = "select sum(total_venda)as total from tb_vendas where data_venda=?";
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setString(1, data_venda.toString());
+
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+
+                totalvenda = rs.getDouble("total");
+            }
+
+            return totalvenda;
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+
         }
 
     }

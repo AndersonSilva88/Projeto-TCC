@@ -4,7 +4,9 @@
  */
 package br.com.project.view;
 
+import br.com.project.dao.ItemVendaDAO;
 import br.com.project.dao.VendasDAO;
+import br.com.project.model.ItensVendas;
 import br.com.project.model.Vendas;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -254,6 +256,26 @@ public class TlHistorico extends javax.swing.JFrame {
         tela.txtTotalVenda.setText(tabelaHistorico.getValueAt(tabelaHistorico.getSelectedRow(),3).toString());
         tela.txtDataVenda.setText(tabelaHistorico.getValueAt(tabelaHistorico.getSelectedRow(),1).toString());
         tela.txtObsVenda.setText(tabelaHistorico.getValueAt(tabelaHistorico.getSelectedRow(),4).toString());
+        
+        int venda_id = Integer.parseInt(tabelaHistorico.getValueAt(tabelaHistorico.getSelectedRow(),0).toString());
+        
+        //itens comprados dados
+        ItensVendas item = new ItensVendas();
+        ItemVendaDAO dao_item = new ItemVendaDAO();
+        List<ItensVendas> listaitens = dao_item.listarItensPorVenda(venda_id);
+        
+        DefaultTableModel dados = (DefaultTableModel) tela.tabelaItensVenda.getModel();
+        dados.setNumRows(0);
+        
+        for(ItensVendas c : listaitens) {
+            dados.addRow(new Object[]{
+            
+                c.getVeiculos().getModelo(),
+                c.getQtd(),
+                c.getVeiculos().getValor()
+            
+            });
+        }
         
         tela.setVisible(true);
         

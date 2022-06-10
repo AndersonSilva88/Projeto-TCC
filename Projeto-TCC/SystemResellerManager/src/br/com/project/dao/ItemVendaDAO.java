@@ -57,8 +57,8 @@ public class ItemVendaDAO {
         try {
             List<ItensVendas> lista = new ArrayList<>();
 
-            String sql = "select i.id, v.modelo, i.qtd, v.valor,i.subtotal from tb_itensvendas as i"
-                    + " inner join tb_veiculos as v on(i.veiculos_id = v.id) where i.venda_id =?";
+            String sql = "select v.modelo, i.qtd, v.valor,i.subtotal from tb_itensvendas as i"
+                    + " inner join tb_veiculos as v on(i.veiculo_id = v.id) where i.venda_id =?";
 
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setInt(1, venda_id);
@@ -68,12 +68,11 @@ public class ItemVendaDAO {
             while (rs.next()) {
                 ItensVendas item = new ItensVendas();
                 Veiculos v = new Veiculos();
-
-                item.setId(rs.getInt("i.id"));
+                //tentar inserir placa
                 v.setModelo(rs.getString("v.modelo"));
-                item.setQtd(rs.getInt("i.subtotal"));
+                item.setQtd(rs.getInt("i.qtd"));
                 v.setValor(rs.getDouble("v.valor"));
-                item.setSubtotal(rs.getDouble("i.qtd"));
+                item.setSubtotal(rs.getDouble("i.subtotal"));
                 
                 item.setVeiculos(v);
                 
