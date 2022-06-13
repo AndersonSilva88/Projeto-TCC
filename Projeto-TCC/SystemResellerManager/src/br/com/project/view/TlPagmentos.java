@@ -26,6 +26,7 @@ public class TlPagmentos extends javax.swing.JFrame {
      * Creates new form TlPagmentos
      */
     
+    
     Clientes cliente = new Clientes();
     DefaultTableModel carrinho;
     
@@ -216,6 +217,8 @@ public class TlPagmentos extends javax.swing.JFrame {
         
         //total venda
         objv.setTotal_venda(totalvenda);
+        
+        //observacoes
         objv.setObs(txtObs.getText());
         
         VendasDAO dao_v = new VendasDAO();
@@ -223,7 +226,8 @@ public class TlPagmentos extends javax.swing.JFrame {
         
         //retornar ultima venda
         objv.setId(dao_v.retornaUltimaVenda());
-        
+           
+                   
         //cadastrar tabela item vendas
         for(int i=0; i<carrinho.getRowCount(); i++) {
             

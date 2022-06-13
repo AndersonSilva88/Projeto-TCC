@@ -322,7 +322,7 @@ public class TlVendas extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Placa", "Modelo", "Qtde", "Cor", "Valor", "Subtotal"
+                "Modelo", "Cor", "Valor"
             }
         ));
         jScrollPane1.setViewportView(tabelaItens);
@@ -512,11 +512,11 @@ public class TlVendas extends javax.swing.JFrame {
         carrinho = (DefaultTableModel) tabelaItens.getModel();
         
         carrinho.addRow(new Object[]{
-          txtPlaca.getText(),
+         
           txtModelo.getText(),
           txtCor.getText(),
           txtValor.getText(),
-          subtotal
+          
         
         });
         

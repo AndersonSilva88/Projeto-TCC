@@ -6,8 +6,6 @@ package br.com.project.dao;
 
 import br.com.project.jdbc.ConnectionFactory;
 import br.com.project.model.Clientes;
-import br.com.project.model.Fornecedores;
-import br.com.project.model.Veiculos;
 import br.com.project.model.Vendas;
 import java.sql.PreparedStatement;
 import java.sql.Connection;
@@ -36,6 +34,7 @@ public class VendasDAO {
             String sql = "insert into tb_vendas(cliente_id,data_venda,total_venda,observacoes)"
                     + "values(?,?,?,?)";
             PreparedStatement stmt = con.prepareStatement(sql);
+            
             stmt.setInt(1, obj.getCliente().getId());
             stmt.setString(2, obj.getData_venda());
             stmt.setDouble(3, obj.getTotal_venda());
@@ -54,17 +53,17 @@ public class VendasDAO {
     public int retornaUltimaVenda() {
         try {
             int idvenda = 0;
-            String query = "select max(id) id from vendas";
-            PreparedStatement ps = con.prepareStatement(query);
+            String sql = "select max(id) id from tb_vendas";
+            PreparedStatement ps = con.prepareStatement(sql);
 
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
-                Vendas p = new Vendas();
+                Vendas v = new Vendas();
 
-                p.setId(rs.getInt("id"));
+                v.setId(rs.getInt("id"));
 
-                idvenda = p.getId();
+                idvenda = v.getId();
             }
 
             return idvenda;

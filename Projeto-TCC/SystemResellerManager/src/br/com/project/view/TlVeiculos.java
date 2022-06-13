@@ -624,7 +624,7 @@ public class TlVeiculos extends javax.swing.JFrame {
         VeiculosDAO dao = new VeiculosDAO();
         dao.cadastrar(obj);
 
-        new Utilitarios().limpaTela(painelDados);
+        new Utilitarios().limpaTela(painelDados1);
 
     }//GEN-LAST:event_btnsalvarActionPerformed
 
@@ -686,7 +686,7 @@ public class TlVeiculos extends javax.swing.JFrame {
         VeiculosDAO dao = new VeiculosDAO();
         dao.alterar(obj);
 
-        new Utilitarios().limpaTela(painelDados);
+        new Utilitarios().limpaTela(painelDados1);
     }//GEN-LAST:event_btneditarActionPerformed
 
     private void btnexcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnexcluirActionPerformed
@@ -698,7 +698,7 @@ public class TlVeiculos extends javax.swing.JFrame {
         VeiculosDAO dao = new VeiculosDAO();
         dao.excluir(obj);
 
-        new Utilitarios().limpaTela(painelDados);
+        new Utilitarios().limpaTela(painelDados1);
     }//GEN-LAST:event_btnexcluirActionPerformed
 
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
@@ -769,7 +769,7 @@ public class TlVeiculos extends javax.swing.JFrame {
 
     private void btnnovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnnovoActionPerformed
         // TODO add your handling code here:
-        new Utilitarios().limpaTela(painelDados);
+        new Utilitarios().limpaTela(painelDados1);
 
 
     }//GEN-LAST:event_btnnovoActionPerformed

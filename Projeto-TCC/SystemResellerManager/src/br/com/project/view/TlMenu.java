@@ -60,7 +60,7 @@ public class TlMenu extends javax.swing.JFrame {
         menu_controle_vendas = new javax.swing.JMenu();
         jMenuItem6 = new javax.swing.JMenuItem();
         menu_posicao = new javax.swing.JMenuItem();
-        jMenuItem8 = new javax.swing.JMenuItem();
+        menu_historico_vendas = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
         jMenuItem9 = new javax.swing.JMenuItem();
         jMenu7 = new javax.swing.JMenu();
@@ -188,13 +188,13 @@ public class TlMenu extends javax.swing.JFrame {
         });
         menu_controle_vendas.add(menu_posicao);
 
-        jMenuItem8.setText("Histórico de Vendas");
-        jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
+        menu_historico_vendas.setText("Histórico de Vendas");
+        menu_historico_vendas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem8ActionPerformed(evt);
+                menu_historico_vendasActionPerformed(evt);
             }
         });
-        menu_controle_vendas.add(jMenuItem8);
+        menu_controle_vendas.add(menu_historico_vendas);
 
         jMenuBar1.add(menu_controle_vendas);
 
@@ -307,11 +307,11 @@ public class TlMenu extends javax.swing.JFrame {
         tela.setVisible(true);
     }//GEN-LAST:event_menu_posicaoActionPerformed
 
-    private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
+    private void menu_historico_vendasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_historico_vendasActionPerformed
         // consultar historico
         TlHistorico tela = new TlHistorico();
         tela.setVisible(true);
-    }//GEN-LAST:event_jMenuItem8ActionPerformed
+    }//GEN-LAST:event_menu_historico_vendasActionPerformed
 
     /**
      * @param args the command line arguments
@@ -363,11 +363,11 @@ public class TlMenu extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
-    public javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblusuario;
     public javax.swing.JMenu menu_controle_vendas;
+    public javax.swing.JMenuItem menu_historico_vendas;
     public javax.swing.JMenuItem menu_posicao;
     private javax.swing.JDesktopPane painel_desktop;
     // End of variables declaration//GEN-END:variables

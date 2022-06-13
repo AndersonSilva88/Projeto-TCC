@@ -271,23 +271,23 @@ public class FuncionariosDAO {
                 //usuario logado
 
                 //usuario adm
-                if (rs.getString("nivel_acesso").equals("Admin")) {
+                if (rs.getString("nivel_acesso").equals("Administrador")) {
                     JOptionPane.showMessageDialog(null, "Seja bem vindo ao Sistema");
-                    TlMenu tela = new TlMenu();
-                    tela.usuario = rs.getString("nome");
-                    tela.setVisible(true);
+                    TlMenu telaMenu = new TlMenu();
+                    telaMenu.usuario = rs.getString("nome");
+                    telaMenu.setVisible(true);
 
                 } //caso usuario funcionario
-                else if (rs.getString("nivel_acesso").equals("Usuario")) {
+                else if (rs.getString("nivel_acesso").equals("Usuário")) {
                     JOptionPane.showMessageDialog(null, "Seja bem vindo ao Sistema");
-                    TlMenu tela = new TlMenu();
-                    tela.usuario = rs.getString("nome");
+                    TlMenu telaMenu = new TlMenu();
+                    telaMenu.usuario = rs.getString("nome");
                     
                     //desabilitar acesso
-                    tela.menu_posicao.setEnabled(false);
-                    tela.menu_controle_vendas.setVisible(false);
+                    telaMenu.menu_posicao.setEnabled(false);
+                    telaMenu.menu_historico_vendas.setVisible(false);
                     
-                    tela.setVisible(true);
+                    telaMenu.setVisible(true);
                 }
 
             } else {
